@@ -1,10 +1,899 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔍 Dossier Classifié — Affaire n°1302</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose: #ffb9af;
+  --abricot: #ffd7a0;
+  --corail: #fca3ad;
+  --sang: #8b1a1a;
+  --sang-clair: #c0392b;
+  --noir: #1a1a1a;
+  --noir-chaud: #2c1810;
+  --creme: #faf3e8;
+  --or: #d4a843;
+  --or-pale: #e8c97a;
+  --teal: #4ecdc4;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  background: var(--noir); color: var(--creme);
+  min-height: 100vh; overflow-x: hidden;
+}
+
+/* ══════ INTRO ══════ */
+#intro-screen {
+  position: fixed; inset: 0; z-index: 1000; background: var(--noir);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; transition: opacity 1.2s ease, transform 1.2s ease;
+}
+#intro-screen.fade-out { opacity: 0; transform: scale(1.1); pointer-events: none; }
+.stamp-classified {
+  font-family: 'Special Elite', monospace; font-size: clamp(2rem, 6vw, 4.5rem);
+  color: var(--sang-clair); border: 4px solid var(--sang-clair);
+  padding: 0.3em 0.8em; transform: rotate(-8deg);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  animation: stamp-appear 0.6s cubic-bezier(0.17, 0.67, 0.29, 1.2) forwards;
+  opacity: 0; text-shadow: 2px 2px 4px rgba(139, 26, 26, 0.4);
+}
+@keyframes stamp-appear {
+  0% { opacity: 0; transform: rotate(-8deg) scale(3); }
+  60% { opacity: 1; transform: rotate(-8deg) scale(0.95); }
+  100% { opacity: 1; transform: rotate(-8deg) scale(1); }
+}
+.dossier-number {
+  font-family: 'Special Elite', monospace; font-size: clamp(1rem, 3vw, 1.6rem);
+  color: var(--or-pale); margin-top: 1.5rem; letter-spacing: 0.3em;
+  opacity: 0; animation: fade-in 1s ease 0.8s forwards;
+}
+.intro-instruction {
+  font-family: 'Crimson Pro', serif; font-size: clamp(0.85rem, 2vw, 1.1rem);
+  color: rgba(250,243,232,0.4); margin-top: 3rem; letter-spacing: 0.15em;
+  opacity: 0; animation: pulse-fade 2s ease 1.5s infinite;
+}
+@keyframes fade-in { to { opacity: 1; } }
+@keyframes pulse-fade { 0%,100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+
+/* ══════ MAIN ══════ */
+#main-content { opacity: 0; transition: opacity 1s ease; }
+#main-content.visible { opacity: 1; }
+
+/* ══════ SCÈNE DE CRIME ══════ */
+.crime-scene {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2rem; position: relative;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(252,163,173,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255,215,160,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(139,26,26,0.15) 0%, transparent 70%),
+    var(--noir);
+  overflow: hidden;
+}
+.crime-scene::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0v60M0 30h60' stroke='rgba(212,168,67,0.03)' stroke-width='0.5'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.police-tape {
+  position: absolute; top: 0; left: -5%; width: 110%;
+  background: repeating-linear-gradient(90deg, #e8c93a 0px, #e8c93a 80px, var(--noir) 80px, var(--noir) 100px);
+  color: var(--noir); font-family: 'Special Elite', monospace; font-size: 0.85rem;
+  letter-spacing: 0.3em; text-transform: uppercase; padding: 0.4em 0;
+  text-align: center; transform: rotate(-1deg); z-index: 5;
+  overflow: hidden; white-space: nowrap;
+}
+.police-tape span { display: inline-block; animation: scroll-tape 20s linear infinite; }
+@keyframes scroll-tape { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+.crime-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(2rem, 7vw, 5rem);
+  font-weight: 700; text-align: center; line-height: 1.15;
+  margin-bottom: 0.5em; position: relative; z-index: 2;
+}
+.crime-title .line1 { display: block; color: var(--rose); font-style: italic; font-weight: 400; font-size: 0.5em; letter-spacing: 0.2em; text-transform: uppercase; }
+.crime-title .line2 { display: block; background: linear-gradient(135deg, var(--corail), var(--rose), var(--abricot)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.crime-title .line3 { display: block; color: var(--sang-clair); font-size: 0.4em; font-family: 'Special Elite', monospace; letter-spacing: 0.25em; margin-top: 0.3em; }
+.crime-date { font-family: 'Special Elite', monospace; color: var(--or-pale); font-size: clamp(0.9rem, 2vw, 1.2rem); letter-spacing: 0.15em; margin-bottom: 2rem; z-index: 2; }
+.crime-narrative {
+  max-width: 700px; text-align: center; font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.8; color: rgba(250,243,232,0.85); z-index: 2;
+  margin-bottom: 2.5rem; font-weight: 300;
+}
+.crime-narrative em { color: var(--corail); font-weight: 400; }
+.crime-narrative strong { color: var(--or-pale); font-weight: 600; }
+.btn-enquete {
+  font-family: 'Special Elite', monospace; font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--noir); background: linear-gradient(135deg, var(--abricot), var(--or-pale));
+  border: none; padding: 0.8em 2.5em; cursor: pointer;
+  letter-spacing: 0.15em; text-transform: uppercase; z-index: 2;
+  transition: all 0.3s; clip-path: polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%);
+}
+.btn-enquete:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(212,168,67,0.3); }
+
+/* ══════ ENQUÊTE SECTIONS ══════ */
+.enquete-section { display: none; padding: 2rem 1rem; max-width: 800px; margin: 0 auto; }
+.enquete-section.active { display: block; animation: section-in 0.8s ease forwards; }
+@keyframes section-in { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.evidence-card {
+  background: linear-gradient(145deg, rgba(44,24,16,0.9), rgba(26,26,26,0.95));
+  border: 1px solid rgba(212,168,67,0.2); border-radius: 2px;
+  padding: 2rem; margin: 2rem 0; position: relative; overflow: hidden;
+}
+.evidence-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--corail), var(--sang-clair)); }
+.evidence-card::after { content: 'PIÈCE À CONVICTION'; position: absolute; top: 0.8rem; right: 1rem; font-family: 'Special Elite', monospace; font-size: 0.65rem; color: var(--or); letter-spacing: 0.2em; opacity: 0.5; }
+.evidence-number { font-family: 'Special Elite', monospace; font-size: 0.8rem; color: var(--sang-clair); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+.evidence-title { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.8rem); color: var(--rose); margin-bottom: 1rem; font-weight: 700; }
+.evidence-text { font-size: 1.05rem; line-height: 1.8; color: rgba(250,243,232,0.8); font-weight: 300; margin-bottom: 1.5rem; }
+.evidence-text em { color: var(--abricot); font-weight: 400; }
+
+.enigme-zone {
+  background: rgba(245,230,208,0.05); border: 1px dashed rgba(212,168,67,0.3);
+  padding: 1.5rem; margin: 1.5rem 0; text-align: center;
+}
+.enigme-label { font-family: 'Special Elite', monospace; font-size: 0.75rem; color: var(--or); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1rem; }
+.enigme-question { font-family: 'Playfair Display', serif; font-size: clamp(1.05rem, 2.5vw, 1.3rem); color: var(--creme); margin-bottom: 1.5rem; line-height: 1.6; font-style: italic; }
+.input-group { display: flex; gap: 0.5rem; max-width: 450px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+.enigme-input {
+  font-family: 'Special Elite', monospace; font-size: 1.1rem; padding: 0.7em 1.2em;
+  background: rgba(26,26,26,0.8); border: 1px solid rgba(212,168,67,0.3);
+  color: var(--creme); flex: 1; min-width: 180px; text-align: center;
+  letter-spacing: 0.1em; transition: border-color 0.3s;
+}
+.enigme-input:focus { outline: none; border-color: var(--or-pale); box-shadow: 0 0 15px rgba(212,168,67,0.15); }
+.enigme-input::placeholder { color: rgba(250,243,232,0.25); }
+.btn-valider {
+  font-family: 'Special Elite', monospace; font-size: 0.9rem; padding: 0.7em 1.5em;
+  background: var(--sang-clair); color: var(--creme); border: none; cursor: pointer;
+  letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.3s;
+}
+.btn-valider:hover { background: var(--sang); transform: scale(1.03); }
+.feedback { font-family: 'Special Elite', monospace; font-size: 0.9rem; margin-top: 1rem; min-height: 1.5em; }
+.feedback.error { color: var(--sang-clair); animation: shake 0.4s ease; }
+.feedback.success { color: var(--teal); }
+.feedback.hint { color: var(--abricot); font-style: italic; }
+@keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-5px); } 40%,80% { transform: translateX(5px); } }
+
+.choices-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.choice-btn {
+  font-family: 'Crimson Pro', serif; font-size: 1rem; padding: 1em 1.2em;
+  background: rgba(44,24,16,0.6); border: 1px solid rgba(252,163,173,0.2);
+  color: var(--creme); cursor: pointer; transition: all 0.3s; text-align: left; line-height: 1.5;
+}
+.choice-btn:hover { background: rgba(252,163,173,0.1); border-color: var(--corail); transform: translateY(-2px); }
+.choice-btn.correct { background: rgba(78,205,196,0.15); border-color: var(--teal); color: var(--teal); }
+.choice-btn.wrong { background: rgba(139,26,26,0.2); border-color: var(--sang-clair); color: var(--sang-clair); opacity: 0.6; }
+
+.indice-unlocked {
+  display: none; padding: 1.5rem; margin-top: 1.5rem; text-align: center;
+  background: linear-gradient(135deg, rgba(78,205,196,0.08), rgba(212,168,67,0.08));
+  border: 1px solid rgba(78,205,196,0.3);
+}
+.indice-unlocked.show { display: block; animation: unlock-glow 1s ease; }
+@keyframes unlock-glow {
+  0% { box-shadow: 0 0 0 rgba(78,205,196,0); opacity: 0; transform: scale(0.95); }
+  50% { box-shadow: 0 0 30px rgba(78,205,196,0.2); }
+  100% { box-shadow: 0 0 0 rgba(78,205,196,0); opacity: 1; transform: scale(1); }
+}
+.indice-label { font-family: 'Special Elite', monospace; font-size: 0.7rem; color: var(--teal); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 0.8rem; }
+.indice-content { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--abricot); font-style: italic; }
+
+.btn-continuer {
+  display: none; margin: 2rem auto;
+  font-family: 'Special Elite', monospace; font-size: 1rem; padding: 0.8em 2em;
+  background: transparent; border: 1px solid var(--or); color: var(--or); cursor: pointer;
+  letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s;
+}
+.btn-continuer.show { display: block; animation: fade-in 0.5s ease forwards; }
+.btn-continuer:hover { background: rgba(212,168,67,0.1); box-shadow: 0 0 20px rgba(212,168,67,0.15); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--sang-clair), var(--corail), var(--abricot));
+  z-index: 100; transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 0 10px rgba(252,163,173,0.5);
+}
+.indices-collectes {
+  position: fixed; top: 50%; right: 0; transform: translateY(-50%);
+  z-index: 50; display: flex; flex-direction: column; gap: 0.5rem; padding: 0.5rem;
+}
+.indice-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid rgba(212,168,67,0.3); background: transparent; transition: all 0.5s;
+}
+.indice-dot.found { background: var(--or-pale); border-color: var(--or-pale); box-shadow: 0 0 8px rgba(212,168,67,0.5); }
+
+.cipher-display {
+  font-family: 'Special Elite', monospace; font-size: clamp(1rem, 3vw, 1.5rem);
+  color: var(--or-pale); letter-spacing: 0.15em; margin: 1rem 0; padding: 1rem;
+  background: rgba(0,0,0,0.3); border: 1px solid rgba(212,168,67,0.2); line-height: 1.8;
+}
+.hint-btn {
+  font-family: 'Special Elite', monospace; font-size: 0.75rem; color: var(--abricot);
+  background: none; border: none; cursor: pointer; letter-spacing: 0.15em;
+  opacity: 0.5; transition: opacity 0.3s; margin-top: 0.5rem;
+}
+.hint-btn:hover { opacity: 1; text-decoration: underline; }
+
+/* Grille de lettres 8x8 */
+.letter-grid {
+  display: inline-grid; grid-template-columns: repeat(8, 1fr);
+  gap: 5px; margin: 1rem auto; max-width: 420px;
+}
+.letter-cell {
+  font-family: 'Special Elite', monospace; font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+  width: clamp(34px, 7vw, 46px); height: clamp(34px, 7vw, 46px);
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.4); border: 1px solid rgba(212,168,67,0.15);
+  color: var(--or-pale); transition: all 0.3s; user-select: none; cursor: pointer;
+}
+.letter-cell:hover { border-color: rgba(252,163,173,0.4); }
+.letter-cell.highlight { border-color: var(--corail); color: var(--corail); background: rgba(252,163,173,0.1); }
+.letter-cell.dim { opacity: 0.2; }
+.letter-cell.path-reveal { border-color: var(--teal); color: var(--teal); background: rgba(78,205,196,0.1); }
+
+.suspect-table {
+  width: 100%; border-collapse: collapse; margin: 1rem 0;
+  font-family: 'Crimson Pro', serif; font-size: 0.95rem;
+}
+.suspect-table th {
+  font-family: 'Special Elite', monospace; font-size: 0.7rem;
+  color: var(--or); letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 0.8rem 0.5rem; border-bottom: 1px solid rgba(212,168,67,0.3); text-align: left;
+}
+.suspect-table td {
+  padding: 0.7rem 0.5rem; border-bottom: 1px solid rgba(212,168,67,0.08);
+  color: rgba(250,243,232,0.8); vertical-align: top;
+}
+.suspect-table tr:hover td { background: rgba(252,163,173,0.03); }
+.attempt-counter { font-family: 'Special Elite', monospace; font-size: 0.75rem; color: rgba(250,243,232,0.3); margin-top: 0.5rem; }
+
+.blood-drip {
+  position: absolute; width: 3px;
+  background: linear-gradient(to bottom, var(--sang-clair), transparent);
+  top: 0; animation: drip 4s ease-in infinite; opacity: 0.3;
+}
+@keyframes drip { 0% { height: 0; opacity: 0.3; } 70% { height: 80px; opacity: 0.3; } 100% { height: 100px; opacity: 0; } }
+
+/* ══════ FINALE ══════ */
+#finale { display: none; min-height: 100vh; position: relative; overflow: hidden; }
+#finale.active {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 2rem; animation: finale-in 1.5s ease forwards;
+}
+@keyframes finale-in { from { opacity: 0; } to { opacity: 1; } }
+.finale-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(255,185,175,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(255,215,160,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(252,163,173,0.12) 0%, transparent 40%),
+    var(--noir);
+}
+.confetti-container { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.confetti { position: absolute; width: 10px; height: 10px; top: -10px; animation: confetti-fall linear infinite; }
+@keyframes confetti-fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+.finale-content { position: relative; z-index: 2; text-align: center; max-width: 700px; }
+.finale-badge {
+  display: inline-block; font-family: 'Special Elite', monospace; font-size: 0.75rem;
+  color: var(--teal); letter-spacing: 0.4em; text-transform: uppercase;
+  border: 1px solid rgba(78,205,196,0.4); padding: 0.4em 1.5em; margin-bottom: 2rem;
+  animation: pulse-border 2s ease infinite;
+}
+@keyframes pulse-border { 0%,100% { border-color: rgba(78,205,196,0.4); } 50% { border-color: rgba(78,205,196,0.8); } }
+.finale-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 700; line-height: 1.1; margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--rose), var(--abricot), var(--corail), var(--or-pale));
+  background-size: 200% 200%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: gradient-shift 4s ease infinite;
+}
+@keyframes gradient-shift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.finale-subtitle { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.8rem); font-style: italic; color: var(--rose); margin-bottom: 2.5rem; font-weight: 400; }
+.cadeau-reveal {
+  background: linear-gradient(145deg, rgba(44,24,16,0.95), rgba(26,26,26,0.9));
+  border: 2px solid var(--or); padding: 2.5rem; margin: 1.5rem auto;
+  position: relative; max-width: 550px;
+}
+.cadeau-reveal::before { content: '🎭'; position: absolute; top: -1.2rem; left: 50%; transform: translateX(-50%); font-size: 2rem; background: var(--noir); padding: 0 0.5em; }
+.cadeau-label { font-family: 'Special Elite', monospace; font-size: 0.7rem; color: var(--or); letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 1.5rem; }
+.cadeau-titre { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--abricot); margin-bottom: 0.5rem; line-height: 1.2; }
+.cadeau-details { font-family: 'Crimson Pro', serif; font-size: 1.2rem; color: var(--rose); margin-bottom: 0.3rem; font-weight: 300; }
+.cadeau-date { font-family: 'Special Elite', monospace; font-size: 1.3rem; color: var(--or-pale); margin-top: 1rem; letter-spacing: 0.1em; }
+.finale-message {
+  font-family: 'Crimson Pro', serif; font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  color: rgba(250,243,232,0.85); line-height: 1.8; margin-top: 2.5rem;
+  font-weight: 300; max-width: 550px; margin-left: auto; margin-right: auto;
+}
+.finale-message em { color: var(--corail); font-weight: 400; }
+.signature { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; color: var(--abricot); margin-top: 2rem; }
+.heart-float { position: absolute; font-size: 1.5rem; animation: float-heart 6s ease-in-out infinite; opacity: 0.3; }
+@keyframes float-heart { 0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.1; } 50% { transform: translateY(-30px) rotate(15deg); opacity: 0.4; } }
+
+@media (max-width: 600px) {
+  .evidence-card { padding: 1.2rem; }
+  .evidence-card::after { display: none; }
+  .enigme-zone { padding: 1rem; }
+  .cadeau-reveal { padding: 1.5rem; }
+  .indices-collectes { display: none; }
+  .choices-grid { grid-template-columns: 1fr; }
+  .suspect-table { font-size: 0.85rem; }
+  .letter-grid { gap: 3px; }
+}
+</style>
 </head>
 <body>
-<h1>Ça marche !</h1>
+
+<!-- INTRO -->
+<div id="intro-screen" onclick="openDossier()">
+  <div class="stamp-classified">CLASSIFIÉ</div>
+  <div class="dossier-number">Dossier n°13-02 — Brigade Criminelle des Antilles</div>
+  <div class="intro-instruction">▸ Cliquez pour ouvrir le dossier ◂</div>
+</div>
+
+<div class="progress-bar" id="progressBar" style="width: 0%"></div>
+<div class="indices-collectes">
+  <div class="indice-dot" id="dot1"></div>
+  <div class="indice-dot" id="dot2"></div>
+  <div class="indice-dot" id="dot3"></div>
+  <div class="indice-dot" id="dot4"></div>
+</div>
+
+<div id="main-content">
+
+  <!-- ══════ SCÈNE DE CRIME ══════ -->
+  <section class="crime-scene" id="scene">
+    <div class="police-tape">
+      <span>⚠ SCÈNE DE CRIME — NE PAS FRANCHIR ⚠ SCÈNE DE CRIME — NE PAS FRANCHIR ⚠ SCÈNE DE CRIME — NE PAS FRANCHIR ⚠ SCÈNE DE CRIME — NE PAS FRANCHIR ⚠&nbsp;&nbsp;&nbsp;</span>
+    </div>
+    <div class="blood-drip" style="left: 15%;"></div>
+    <div class="blood-drip" style="left: 45%; animation-delay: 1.5s;"></div>
+    <div class="blood-drip" style="left: 78%; animation-delay: 3s;"></div>
+
+    <h1 class="crime-title">
+      <span class="line1">Affaire non résolue</span>
+      <span class="line2">Meurtre Mystérieux<br>à la Saint-Valentin</span>
+      <span class="line3">Fort-de-France — 13 février 2026 — 23h59</span>
+    </h1>
+    <p class="crime-date">📂 Agent·e assigné·e : Inspectrice Syssine</p>
+    <div class="crime-narrative">
+      <p>La nuit du <strong>13 février</strong>, à la veille de la Saint-Valentin, un crime passionnel a été commis sur la Savane de Fort-de-France. L'<em>Amour</em> a été retrouvé sans vie au pied de la statue de l'Impératrice Joséphine.</p>
+      <br>
+      <p>Deux témoins félins ont été aperçus sur les lieux. Quatre suspects martiniquais ont été arrêtés. Tous mentent, sauf un.</p>
+      <br>
+      <p>Tous les enquêteurs de la Brigade ont échoué. <em>Vous êtes notre dernier espoir, Inspectrice.</em></p>
+    </div>
+    <button class="btn-enquete" onclick="startEnquete()">🔍 Ouvrir l'enquête</button>
+  </section>
+
+  <!-- ══════ ÉNIGME 1 — CHIFFRE DE CÉSAR ══════ -->
+  <section class="enquete-section" id="enigme1">
+    <div class="evidence-card">
+      <div class="evidence-number">Pièce à conviction n°1</div>
+      <div class="evidence-title">Le Billet Chiffré de Manman Dlo</div>
+      <div class="evidence-text">
+        Un billet froissé a été retrouvé dans la fontaine de la Place de la Savane, flottant entre deux nénuphars. L'écriture est celle de <em>Manman Dlo</em>, la sirène gardienne des eaux martiniquaises. Elle a chiffré le nom des deux témoins félins à l'aide d'un <em>chiffre de César</em>.<br><br>
+        L'indice laissé par Manman Dlo : <em>« La clé se trouve dans le jour de naissance de celle qui enquête. »</em>
+      </div>
+
+      <div class="enigme-zone">
+        <div class="enigme-label">🔐 Message intercepté</div>
+        <div class="cipher-display" id="cipher1"></div>
+        <div class="enigme-question">
+          Déchiffrez les noms des deux témoins félins.<br>
+          <small style="color: var(--or); opacity: 0.5;">Le chiffre de César décale chaque lettre dans l'alphabet.</small>
+        </div>
+        <div class="input-group">
+          <input type="text" class="enigme-input" id="answer1" placeholder="Les deux noms..." autocomplete="off" spellcheck="false">
+          <button class="btn-valider" onclick="checkEnigme1()">Déchiffrer</button>
+        </div>
+        <button class="hint-btn" onclick="showHint(1)">💡 Besoin d'un indice ?</button>
+        <div class="feedback" id="feedback1"></div>
+        <div class="attempt-counter" id="attempts1"></div>
+      </div>
+
+      <div class="indice-unlocked" id="indice1">
+        <div class="indice-label">🗝 Fragment n°1 débloqué</div>
+        <div class="indice-content">C _ _ _&ensp;&ensp;_ _&ensp;&ensp;_ _ _ _</div>
+      </div>
+    </div>
+    <button class="btn-continuer" id="btn-next1" onclick="goTo('enigme2')">Pièce à conviction suivante →</button>
+  </section>
+
+  <!-- ══════ ÉNIGME 2 — DÉDUCTION LOGIQUE ══════ -->
+  <section class="enquete-section" id="enigme2">
+    <div class="evidence-card">
+      <div class="evidence-number">Pièce à conviction n°2</div>
+      <div class="evidence-title">Le Témoignage de Ti-Jean</div>
+      <div class="evidence-text">
+        Le légendaire <em>Ti-Jean</em>, héros rusé des contes créoles, a interrogé les quatre suspects. Chacun fait exactement <em>une déclaration vraie et une fausse</em>. À vous de démêler le vrai du faux, Inspectrice.
+      </div>
+
+      <div class="enigme-zone">
+        <div class="enigme-label">📋 Procès-verbaux d'interrogatoire</div>
+
+        <table class="suspect-table">
+          <tr><th>Suspect</th><th>Déclaration 1</th><th>Déclaration 2</th></tr>
+          <tr>
+            <td style="color: var(--corail); font-weight: 600;">🐍 Bête à Man Ibè</td>
+            <td>« Le crime a eu lieu sur la plage des Salines. »</td>
+            <td>« La Diablesse portait des chaussures rouges. »</td>
+          </tr>
+          <tr>
+            <td style="color: var(--corail); font-weight: 600;">👠 La Diablesse</td>
+            <td>« Je portais des chaussures blanches. »</td>
+            <td>« La Bête à Man Ibè était chez le Dorlis. »</td>
+          </tr>
+          <tr>
+            <td style="color: var(--corail); font-weight: 600;">🌙 Le Dorlis</td>
+            <td>« La Bête à Man Ibè n'était pas chez moi. »</td>
+            <td>« Le crime a eu lieu sur la Savane. »</td>
+          </tr>
+          <tr>
+            <td style="color: var(--corail); font-weight: 600;">🔥 Le Volcan</td>
+            <td>« La Diablesse portait des chaussures rouges. »</td>
+            <td>« J'ai vu le Dorlis sur la plage des Salines. »</td>
+          </tr>
+        </table>
+
+        <div class="enigme-question" style="margin-top: 1.5rem;">
+          On sait que le crime a eu lieu <strong>sur la Savane</strong>, pas sur la plage.<br><br>
+          D'après vos déductions : <strong>de quelle couleur étaient les chaussures de la Diablesse ?</strong>
+        </div>
+
+        <div class="choices-grid" id="choices2">
+          <button class="choice-btn" onclick="checkEnigme2(this, 'rouge')">🔴 Rouges</button>
+          <button class="choice-btn" onclick="checkEnigme2(this, 'blanc')">⚪ Blanches</button>
+          <button class="choice-btn" onclick="checkEnigme2(this, 'noir')">⚫ Noires</button>
+          <button class="choice-btn" onclick="checkEnigme2(this, 'or')">🟡 Dorées</button>
+        </div>
+        <div class="feedback" id="feedback2"></div>
+      </div>
+
+      <div class="indice-unlocked" id="indice2">
+        <div class="indice-label">🗝 Fragment n°2 débloqué</div>
+        <div class="indice-content">_ _ L L&ensp;&ensp;M _&ensp;&ensp;_ _ _ _</div>
+      </div>
+    </div>
+    <button class="btn-continuer" id="btn-next2" onclick="goTo('enigme3')">Pièce à conviction suivante →</button>
+  </section>
+
+  <!-- ══════ ÉNIGME 3 — GRILLE DE MOTS ══════ -->
+  <section class="enquete-section" id="enigme3">
+    <div class="evidence-card">
+      <div class="evidence-number">Pièce à conviction n°3</div>
+      <div class="evidence-title">La Grille du Quimboiseur</div>
+      <div class="evidence-text">
+        Le <em>Quimboiseur</em> du Morne-Rouge a gravé une grille de lettres sur un mur de la scène de crime. Il affirme qu'un <em>mot secret de 8 lettres</em> est dissimulé à l'intérieur — comme dans un jeu de mots mêlés, les lettres sont alignées en ligne droite : horizontale, verticale ou diagonale. Attention aux fausses pistes.
+      </div>
+
+      <div class="enigme-zone">
+        <div class="enigme-label">🔮 La grille ensorcelée</div>
+        <div class="letter-grid" id="letterGrid"></div>
+        <div style="font-size: 0.8rem; color: var(--or); opacity: 0.4; margin: 0.5rem 0;">Cliquez les lettres dans l'ordre ou tapez directement.</div>
+        <div class="enigme-question">
+          Quel mot de 8 lettres se cache dans cette grille ?
+        </div>
+        <div class="input-group">
+          <input type="text" class="enigme-input" id="answer3" placeholder="Le mot secret..." autocomplete="off" maxlength="12" spellcheck="false">
+          <button class="btn-valider" onclick="checkEnigme3()">Vérifier</button>
+        </div>
+        <button class="hint-btn" onclick="showHint(3)">💡 Besoin d'un indice ?</button>
+        <div class="feedback" id="feedback3"></div>
+      </div>
+
+      <div class="indice-unlocked" id="indice3">
+        <div class="indice-label">🗝 Fragment n°3 débloqué</div>
+        <div class="indice-content">_ A _ _&ensp;&ensp;_ E&ensp;&ensp;L _ _ _</div>
+      </div>
+    </div>
+    <button class="btn-continuer" id="btn-next3" onclick="goTo('enigme4')">Dernière pièce à conviction →</button>
+  </section>
+
+  <!-- ══════ ÉNIGME 4 — RECONSTITUTION FINALE ══════ -->
+  <section class="enquete-section" id="enigme4">
+    <div class="evidence-card">
+      <div class="evidence-number">Pièce à conviction n°4 — Finale</div>
+      <div class="evidence-title">Le Coffre de l'Habitation Clément</div>
+      <div class="evidence-text">
+        Un ancien coffre colonial a été découvert dans les caves de l'<em>Habitation Clément</em>. À l'intérieur, un parchemin porte les trois fragments que vous avez collectés. Assemblez-les pour reconstituer le <em>nom secret</em> que cache cette affaire.
+      </div>
+
+      <div class="enigme-zone">
+        <div class="enigme-label">🗝 Vos trois fragments superposés</div>
+        <div id="fragmentsDisplay"></div>
+
+        <div class="enigme-question">
+          « <em>Le premier fragment révèle le début.<br>
+          Le deuxième fragment révèle le cœur.<br>
+          Le troisième fragment révèle la fin.</em> »<br><br>
+          Reconstituez le nom complet. Trois mots.
+        </div>
+        <div class="input-group">
+          <input type="text" class="enigme-input" id="answer4" placeholder="Le secret..." autocomplete="off" spellcheck="false">
+          <button class="btn-valider" onclick="checkEnigme4()">Ouvrir le coffre</button>
+        </div>
+        <button class="hint-btn" onclick="showHint(4)">💡 Dernier indice ?</button>
+        <div class="feedback" id="feedback4"></div>
+        <div class="attempt-counter" id="attempts4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ FINALE ══════ -->
+  <section id="finale">
+    <div class="finale-bg"></div>
+    <div class="confetti-container" id="confettiContainer"></div>
+    <div class="finale-content">
+      <div class="finale-badge">✦ AFFAIRE CLASSÉE ✦</div>
+      <h2 class="finale-title">Joyeux Anniversaire Syssine !</h2>
+      <p class="finale-subtitle">L'enquêtrice la plus brillante des Antilles 🔍</p>
+
+      <div class="cadeau-reveal">
+        <div class="cadeau-label">✦ TON CADEAU D'ANNIVERSAIRE ✦</div>
+        <div class="cadeau-titre">🎭 Call Me Ludo</div>
+        <div class="cadeau-details">Spectacle vivant</div>
+        <div class="cadeau-date">📅 1er Avril 2026</div>
+      </div>
+
+      <div class="finale-message">
+        <p>Ma chère Jessie,</p>
+        <br>
+        <p>Tu pensais résoudre un crime, mais c'était en fait une <em>déclaration d'amitié</em> déguisée en enquête policière. 🕵️‍♀️</p>
+        <br>
+        <p>Pour tes <strong style="color: var(--or-pale);">années de folie, de rire et de complicité</strong>, tu mérites une soirée aussi extraordinaire que toi.</p>
+        <br>
+        <p>Prépare-toi pour le <strong style="color: var(--or-pale);">1er avril 2026</strong> — et non, ce n'est <em>pas</em> un poisson d'avril. 🐟😉</p>
+        <br>
+        <p class="signature">C'est ce que mérite une Queen Badass comme toi ! 👑🔥</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let indicesFound = 0;
+let hintCounts = {1:0, 2:0, 3:0, 4:0};
+let attempts = {1:0, 4:0};
+let fragmentsRevealed = [false, false, false];
+
+// ═══════════════════════════════════════
+// ENIGME 1 — César shift=13
+// "MAGE ET ISIS" → shift each letter +13:
+// M(12)+13=Z(25), A(0)+13=N(13), G(6)+13=T(19), E(4)+13=R(17) → ZNTR
+// E(4)+13=R(17), T(19)+13=G(6) → RG
+// I(8)+13=V(21), S(18)+13=F(5), I(8)+13=V(21), S(18)+13=F(5) → VFVF
+// Encrypted: "ZNTR RG VFVF"
+// ═══════════════════════════════════════
+
+const CIPHER_TEXT = "ZNTR  RG  VFVF";
+const CLEAR_TEXT = "MAGE ET ISIS";
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('cipher1').textContent = CIPHER_TEXT;
+  buildLetterGrid();
+});
+
+// ══════ INTRO ══════
+function openDossier() {
+  const intro = document.getElementById('intro-screen');
+  intro.classList.add('fade-out');
+  setTimeout(() => { intro.style.display = 'none'; document.getElementById('main-content').classList.add('visible'); }, 1200);
+}
+
+// ══════ NAV ══════
+function startEnquete() {
+  document.getElementById('scene').style.display = 'none';
+  document.getElementById('enigme1').classList.add('active');
+  updateProgress();
+}
+function goTo(id) {
+  document.querySelectorAll('.enquete-section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+  const t = document.getElementById(id);
+  t.style.display = 'block'; void t.offsetWidth; t.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updateProgress();
+  if (id === 'enigme4') renderFragments();
+}
+function updateProgress() { document.getElementById('progressBar').style.width = (indicesFound / 4 * 100) + '%'; }
+function unlockIndice(n) {
+  indicesFound++;
+  fragmentsRevealed[n - 1] = true;
+  document.getElementById('indice' + n).classList.add('show');
+  document.getElementById('dot' + n).classList.add('found');
+  const btn = document.getElementById('btn-next' + n);
+  if (btn) btn.classList.add('show');
+  updateProgress();
+}
+function disableInput(id) {
+  const inp = document.getElementById(id);
+  inp.disabled = true; inp.style.opacity = '0.5';
+  const btn = inp.parentElement.querySelector('.btn-valider');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; }
+}
+
+// ══════ ÉNIGME 1 — César ══════
+function checkEnigme1() {
+  const raw = document.getElementById('answer1').value.trim().toUpperCase().replace(/[^A-Z ]/g, '').replace(/\s+/g, ' ');
+  const fb = document.getElementById('feedback1');
+  attempts[1]++;
+
+  if (raw === 'MAGE ET ISIS' || raw === 'MAGE ISIS' || raw === 'ISIS ET MAGE' || raw === 'ISIS MAGE') {
+    fb.textContent = '✅ Mage & Isis ! Les deux félins témoins sont identifiés.';
+    fb.className = 'feedback success';
+    unlockIndice(1);
+    disableInput('answer1');
+  } else if (raw.includes('MAGE') || raw.includes('ISIS')) {
+    fb.textContent = '🔥 Vous avez trouvé un des deux noms ! Il en manque un...';
+    fb.className = 'feedback hint';
+  } else {
+    if (attempts[1] >= 5) {
+      fb.textContent = '💡 Z→M, N→A, T→G, R→E. Le premier nom est M-A-G-E...';
+    } else if (attempts[1] >= 3) {
+      fb.textContent = '❌ Chaque lettre recule de 13 positions. Z(26) - 13 = M(13)...';
+    } else {
+      fb.textContent = '❌ Pas encore. La clé est le jour de naissance : le 13. Décalez chaque lettre de 13 positions en arrière.';
+    }
+    fb.className = 'feedback error';
+  }
+  document.getElementById('attempts1').textContent = 'Tentative ' + attempts[1];
+}
+
+// ══════ ÉNIGME 2 — Logique ══════
+// Raisonnement:
+// FAIT: crime = Savane (pas plage)
+// Bête: D1("plage")=FAUX → D2("Diablesse chaussures rouges")=VRAI
+// Diablesse: D1("blanches") → si rouges=vrai → D1=FAUX → D2("Bête chez Dorlis")=VRAI
+// Dorlis: D1("Bête PAS chez moi") → si Bête chez Dorlis=vrai → D1=FAUX → D2("crime Savane")=VRAI ✓
+// Volcan: D1("rouges")=VRAI → D2("Dorlis sur plage")=FAUX ✓
+// → ROUGES
+
+function checkEnigme2(btn, choice) {
+  const fb = document.getElementById('feedback2');
+  const all = document.querySelectorAll('#choices2 .choice-btn');
+  if (choice === 'rouge') {
+    btn.classList.add('correct');
+    fb.innerHTML = '✅ Brillant ! Bête dit FAUX sur la plage → VRAI sur les chaussures rouges. La Diablesse dit FAUX sur blanches → VRAI sur "Bête chez Dorlis". Tout s\'enchaîne.';
+    fb.className = 'feedback success';
+    all.forEach(b => { if (b !== btn) b.classList.add('wrong'); b.style.pointerEvents = 'none'; });
+    unlockIndice(2);
+  } else {
+    btn.classList.add('wrong'); btn.style.pointerEvents = 'none';
+    hintCounts[2]++;
+    if (choice === 'blanc') fb.textContent = '❌ Si blanches, la Diablesse dit vrai (D1). Alors D2 est fausse. Vérifiez si tout reste cohérent avec le Dorlis...';
+    else if (choice === 'noir') fb.textContent = '❌ Le noir n\'apparaît dans aucun témoignage. Partez de Bête à Man Ibè : sa D1 est fausse (crime ≠ plage), donc sa D2 est...';
+    else fb.textContent = '❌ Le doré n\'apparaît nulle part. Commencez par ce qu\'on sait : le crime = Savane. Qui ment sur ça ?';
+    fb.className = 'feedback error';
+  }
+}
+
+// ══════ ÉNIGME 3 — Grille "LIMONADE" ══════
+// 8x8 grid. LIMONADE hidden in a zigzag non-aligned path.
+// Path (row,col):
+// L(0,5) → I(1,3) → M(2,6) → O(3,4) → N(4,1) → A(5,7) → D(6,0) → E(7,5)
+// Completely scattered, no alignment.
+
+// LIMONADE on the main diagonal (0,0)→(7,7)
+// Decoys: "LIME" starts at (0,0) horizontally but leads nowhere useful
+// "MONDE" appears vertically col 2 rows 2-6 to mislead
+// Several L, I, M scattered as red herrings
+const GRID_LETTERS = [
+  ['L','I','M','E','T','P','V','N'],
+  ['D','I','F','K','H','L','B','U'],
+  ['G','Q','M','E','W','O','C','R'],
+  ['X','S','B','O','P','D','T','A'],
+  ['H','E','J','A','N','U','K','I'],
+  ['F','P','W','R','C','A','S','M'],
+  ['T','B','N','G','I','L','D','F'],
+  ['O','K','S','H','R','O','J','E'],
+];
+
+// Clean diagonal top-left → bottom-right
+const GRID_PATH = [[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7]];
+
+function buildLetterGrid() {
+  const grid = document.getElementById('letterGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'letter-cell';
+      cell.textContent = GRID_LETTERS[r][c];
+      cell.dataset.row = r; cell.dataset.col = c;
+      cell.addEventListener('click', () => toggleCell(cell));
+      grid.appendChild(cell);
+    }
+  }
+}
+
+let selectedCells = [];
+function toggleCell(cell) {
+  if (cell.classList.contains('highlight')) {
+    cell.classList.remove('highlight');
+    selectedCells = selectedCells.filter(x => x.el !== cell);
+  } else {
+    cell.classList.add('highlight');
+    selectedCells.push({ el: cell, letter: cell.textContent });
+  }
+  document.getElementById('answer3').value = selectedCells.map(x => x.letter).join('');
+}
+
+function checkEnigme3() {
+  const answer = document.getElementById('answer3').value.trim().toUpperCase();
+  const fb = document.getElementById('feedback3');
+
+  if (answer === 'LIMONADE') {
+    fb.textContent = '✅ LIMONADE ! Le Quimboiseur lève son sortilège. Vous avancez.';
+    fb.className = 'feedback success';
+    unlockIndice(3);
+    disableInput('answer3');
+    // Reveal path
+    const grid = document.getElementById('letterGrid');
+    const cells = grid.querySelectorAll('.letter-cell');
+    cells.forEach(cell => {
+      const r = parseInt(cell.dataset.row), c = parseInt(cell.dataset.col);
+      const onPath = GRID_PATH.some(p => p[0] === r && p[1] === c);
+      cell.classList.remove('highlight');
+      if (onPath) cell.classList.add('path-reveal');
+      else cell.classList.add('dim');
+    });
+  } else {
+    hintCounts[3]++;
+    if (hintCounts[3] >= 5) {
+      fb.textContent = '💡💡 Le mot est L-I-M-O-N-A-D-E. Cherchez une diagonale !';
+    } else if (hintCounts[3] >= 3) {
+      fb.textContent = '❌ 8 lettres. Pensez à une boisson rafraîchissante. Commence par L, finit par E.';
+    } else {
+      fb.textContent = '❌ Ce n\'est pas le bon mot. 8 lettres — cherchez en horizontal, vertical ou diagonal.';
+    }
+    fb.className = 'feedback error';
+  }
+}
+
+// ══════ ÉNIGME 4 — Reconstitution ══════
+// "CALL ME LUDO" = C A L L   M E   L U D O
+// Fragment 1: C _ _ _   _ _   _ _ _ _  (only C)
+// Fragment 2: _ _ L L   M _   _ _ _ _  (L, L, M)
+// Fragment 3: _ A _ _   _ E   L _ _ _  (A, E, L)
+// Missing after all 3: U, D, O (last 3 of LUDO)
+
+function renderFragments() {
+  const display = document.getElementById('fragmentsDisplay');
+  if (!display) return;
+  //           C  A  L  L     M  E     L  U  D  O
+  const full = ['C','A','L','L',' ','M','E',' ','L','U','D','O'];
+  const m1 =   [ 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0];
+  const m2 =   [ 0,  0,  1,  1,  0,  1,  0,  0,  0,  0,  0,  0];
+  const m3 =   [ 0,  1,  0,  0,  0,  0,  1,  0,  1,  0,  0,  0];
+
+  let html = full.map((ch, i) => {
+    if (ch === ' ') return '&ensp;&ensp;';
+    let show = false;
+    if (fragmentsRevealed[0] && m1[i]) show = true;
+    if (fragmentsRevealed[1] && m2[i]) show = true;
+    if (fragmentsRevealed[2] && m3[i]) show = true;
+    return show
+      ? `<span style="color:var(--teal);font-weight:600;">${ch}</span>`
+      : `<span style="color:var(--sang-clair);">_</span>`;
+  }).join(' ');
+
+  display.innerHTML = `<div class="cipher-display" style="font-size:clamp(1.4rem,4vw,2.2rem);letter-spacing:0.25em;">${html}</div>`;
+}
+
+function checkEnigme4() {
+  const raw = document.getElementById('answer4').value.trim().toLowerCase().replace(/[^a-z]/g, '');
+  const fb = document.getElementById('feedback4');
+  attempts[4]++;
+
+  if (raw === 'callmeludo') {
+    fb.textContent = '🎉 AFFAIRE RÉSOLUE ! Le coffre s\'ouvre...';
+    fb.className = 'feedback success';
+    indicesFound = 4;
+    document.getElementById('dot4').classList.add('found');
+    updateProgress();
+    disableInput('answer4');
+    setTimeout(showFinale, 2500);
+  } else if (raw.includes('call') && raw.includes('ludo')) {
+    fb.textContent = '🔥 Presque ! Trois mots : "Call ... Ludo"';
+    fb.className = 'feedback hint';
+  } else if (raw.includes('call')) {
+    fb.textContent = '🔥 "Call..." c\'est le début ! Complétez avec les autres fragments.';
+    fb.className = 'feedback hint';
+  } else {
+    if (attempts[4] >= 5) {
+      fb.textContent = '💡 Les lettres visibles forment : C-A-L-L  M-E  L-_-_-_. Complétez le dernier mot !';
+    } else if (attempts[4] >= 3) {
+      fb.textContent = '❌ Lisez les lettres en couleur de gauche à droite. Le premier mot commence par C...';
+    } else {
+      fb.textContent = '❌ Ce n\'est pas ça. Superposez vos 3 fragments et lisez les lettres révélées.';
+    }
+    fb.className = 'feedback error';
+  }
+  document.getElementById('attempts4').textContent = 'Tentative ' + attempts[4];
+}
+
+// ══════ HINTS ══════
+function showHint(num) {
+  hintCounts[num]++;
+  const fb = document.getElementById('feedback' + num);
+  if (num === 1) {
+    if (hintCounts[1] >= 4) fb.textContent = '💡💡 Les noms déchiffrés sont M-A-G-E et I-S-I-S.';
+    else if (hintCounts[1] >= 3) fb.textContent = '💡 ZNTR → reculez chaque lettre de 13 : Z→M, N→A, T→G, R→E = MAGE';
+    else if (hintCounts[1] >= 2) fb.textContent = '💡 César de 13 = ROT13. Chaque lettre a son miroir : A↔N, B↔O, C↔P...';
+    else fb.textContent = '💡 Le jour de naissance = 13. C\'est le décalage. Reculez chaque lettre de 13 places.';
+  } else if (num === 3) {
+    if (hintCounts[3] >= 4) fb.textContent = '💡💡 C\'est LIMONADE ! Regardez bien la diagonale principale...';
+    else if (hintCounts[3] >= 3) fb.textContent = '💡 C\'est une boisson pétillante et sucrée qu\'on adore boire bien fraîche.';
+    else if (hintCounts[3] >= 2) fb.textContent = '💡 8 lettres. Commence par L. C\'est une boisson. Pensez diagonal.';
+    else fb.textContent = '💡 Cherchez un mot de 8 lettres. Horizontal, vertical ou diagonal — une seule direction.';
+  } else if (num === 4) {
+    if (hintCounts[4] >= 3) fb.textContent = '💡💡 C-A-L-L  M-E  L-U-D-O. Tapez "Call Me Ludo" !';
+    else if (hintCounts[4] >= 2) fb.textContent = '💡 Lettres révélées : C_A_L_L  M_E  L___. Les 3 dernières lettres forment un prénom.';
+    else fb.textContent = '💡 Superposez les 3 fragments. Lisez les lettres en couleur de gauche à droite.';
+  }
+  fb.className = 'feedback hint';
+}
+
+// ══════ ENTER KEY ══════
+document.addEventListener('keypress', e => {
+  if (e.key === 'Enter') {
+    const id = document.activeElement.id;
+    if (id === 'answer1') checkEnigme1();
+    else if (id === 'answer3') checkEnigme3();
+    else if (id === 'answer4') checkEnigme4();
+  }
+});
+
+// ══════ FINALE ══════
+function showFinale() {
+  document.querySelectorAll('.enquete-section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+  document.getElementById('finale').classList.add('active');
+  document.getElementById('progressBar').style.width = '100%';
+  createConfetti(); createHearts();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function createConfetti() {
+  const c = document.getElementById('confettiContainer');
+  const colors = ['#ffb9af','#ffd7a0','#fca3ad','#d4a843','#4ecdc4','#e8c97a'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div'); el.className = 'confetti';
+    el.style.left = Math.random()*100+'%';
+    el.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+    el.style.animationDuration = (3+Math.random()*4)+'s';
+    el.style.animationDelay = Math.random()*3+'s';
+    el.style.width = (5+Math.random()*10)+'px';
+    el.style.height = (5+Math.random()*10)+'px';
+    el.style.borderRadius = Math.random()>0.5?'50%':'2px';
+    c.appendChild(el);
+  }
+}
+function createHearts() {
+  const f = document.getElementById('finale');
+  const e = ['❤️','💕','🎭','🔍','✨','🌹','🌺'];
+  for (let i = 0; i < 10; i++) {
+    const h = document.createElement('div'); h.className = 'heart-float';
+    h.textContent = e[Math.floor(Math.random()*e.length)];
+    h.style.left = Math.random()*90+5+'%';
+    h.style.top = Math.random()*80+10+'%';
+    h.style.animationDelay = Math.random()*4+'s';
+    h.style.fontSize = (1+Math.random()*1.5)+'rem';
+    f.appendChild(h);
+  }
+}
+</script>
 </body>
 </html>
