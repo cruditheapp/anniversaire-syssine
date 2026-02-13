@@ -8,327 +8,192 @@
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
 <style>
 :root {
-  --rose: #8b4444;
-  --abricot: #d4a843;
-  --corail: #c0392b;
+  --papier: #f5ebe0;
+  --papier-chaud: #efe0cc;
+  --kraft: #e6d5b8;
+  --parchemin: #faf6f0;
+  --encre: #2c1810;
+  --encre-douce: #4a3728;
+  --sepia: #6b4c3b;
+  --sepia-clair: #8b6f5e;
   --sang: #8b1a1a;
-  --sang-clair: #c0392b;
-  --noir: #f5f5f5;
-  --noir-chaud: #e8e8e8;
-  --creme: #1a1a1a;
-  --or: #b8860b;
-  --or-pale: #8b6914;
-  --teal: #2a8a84;
+  --sang-clair: #a52a2a;
+  --tampon: #c0392b;
+  --or-vieux: #9c7a3c;
+  --cafe: #6f4e37;
+  --reussite: #2d6a4f;
+  --indice-bg: #eef7f2;
+  --indice-bord: #52b788;
+  /* Aliases for JS inline styles that reference old vars */
+  --teal: var(--reussite);
+  --or-pale: var(--or-vieux);
+  --corail: var(--tampon);
+  --noir: var(--papier);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   font-family: 'Crimson Pro', Georgia, serif;
-  background: #ffffff; color: #1a1a1a;
+  background: var(--papier); color: var(--encre);
   min-height: 100vh; overflow-x: hidden;
 }
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E") repeat;
+}
 
-/* ══════ INTRO ══════ */
 #intro-screen {
-  position: fixed; inset: 0; z-index: 1000; background: var(--noir);
+  position: fixed; inset: 0; z-index: 1000;
+  background: radial-gradient(ellipse at 30% 70%, rgba(111,78,55,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(156,122,60,0.06) 0%, transparent 50%),
+    linear-gradient(175deg, var(--kraft) 0%, var(--papier-chaud) 50%, var(--papier) 100%);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   cursor: pointer; transition: opacity 1.2s ease, transform 1.2s ease;
+  box-shadow: inset 0 0 80px rgba(111,78,55,0.12);
 }
-#intro-screen.fade-out { opacity: 0; transform: scale(1.1); pointer-events: none; }
+#intro-screen.fade-out { opacity: 0; transform: scale(1.05); pointer-events: none; }
 .stamp-classified {
   font-family: 'Special Elite', monospace; font-size: clamp(2rem, 6vw, 4.5rem);
-  color: var(--sang-clair); border: 4px solid var(--sang-clair);
+  color: var(--tampon); border: 4px solid var(--tampon);
   padding: 0.3em 0.8em; transform: rotate(-8deg);
   letter-spacing: 0.15em; text-transform: uppercase;
   animation: stamp-appear 0.6s cubic-bezier(0.17, 0.67, 0.29, 1.2) forwards;
-  opacity: 0; text-shadow: 2px 2px 4px rgba(139, 26, 26, 0.4);
+  opacity: 0; text-shadow: 1px 1px 0 rgba(192,57,43,0.2);
+  box-shadow: 2px 2px 8px rgba(139,26,26,0.1);
 }
-@keyframes stamp-appear {
-  0% { opacity: 0; transform: rotate(-8deg) scale(3); }
-  60% { opacity: 1; transform: rotate(-8deg) scale(0.95); }
-  100% { opacity: 1; transform: rotate(-8deg) scale(1); }
-}
-.dossier-number {
-  font-family: 'Special Elite', monospace; font-size: clamp(1rem, 3vw, 1.6rem);
-  color: var(--or-pale); margin-top: 1.5rem; letter-spacing: 0.3em;
-  opacity: 0; animation: fade-in 1s ease 0.8s forwards;
-}
-.intro-instruction {
-  font-family: 'Crimson Pro', serif; font-size: clamp(0.85rem, 2vw, 1.1rem);
-  color: rgba(26,26,26,0.6); margin-top: 3rem; letter-spacing: 0.15em;
-  opacity: 0; animation: pulse-fade 2s ease 1.5s infinite;
-}
+@keyframes stamp-appear { 0% { opacity:0; transform:rotate(-8deg) scale(3); } 60% { opacity:1; transform:rotate(-8deg) scale(0.95); } 100% { opacity:1; transform:rotate(-8deg) scale(1); } }
+.dossier-number { font-family: 'Special Elite', monospace; font-size: clamp(1rem,3vw,1.6rem); color: var(--sepia); margin-top: 1.5rem; letter-spacing: 0.3em; opacity: 0; animation: fade-in 1s ease 0.8s forwards; }
+.intro-instruction { font-family: 'Crimson Pro', serif; font-size: clamp(0.85rem,2vw,1.1rem); color: var(--sepia-clair); margin-top: 3rem; letter-spacing: 0.15em; opacity: 0; animation: pulse-fade 2s ease 1.5s infinite; }
 @keyframes fade-in { to { opacity: 1; } }
-@keyframes pulse-fade { 0%,100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+@keyframes pulse-fade { 0%,100% { opacity:0.4; } 50% { opacity:0.8; } }
 
-/* ══════ MAIN ══════ */
 #main-content { opacity: 0; transition: opacity 1s ease; }
 #main-content.visible { opacity: 1; }
 
-/* ══════ SCÈNE DE CRIME ══════ */
 .crime-scene {
-  min-height: 100vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 2rem; position: relative;
-  background:
-    radial-gradient(ellipse at 20% 80%, rgba(252,163,173,0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(255,215,160,0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(139,26,26,0.15) 0%, transparent 70%),
-    var(--noir);
+  background: radial-gradient(ellipse at 85% 15%, rgba(111,78,55,0.1) 0%, transparent 25%),
+    radial-gradient(ellipse at 12% 85%, rgba(111,78,55,0.07) 0%, transparent 20%),
+    linear-gradient(175deg, var(--papier) 0%, var(--papier-chaud) 60%, var(--kraft) 100%);
   overflow: hidden;
 }
-.crime-scene::before {
-  content: ''; position: absolute; inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0v60M0 30h60' stroke='rgba(212,168,67,0.03)' stroke-width='0.5'/%3E%3C/svg%3E");
-  pointer-events: none;
-}
+.crime-scene::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(156,122,60,0.06) 39px, rgba(156,122,60,0.06) 40px); pointer-events: none; }
 .police-tape {
   position: absolute; top: 0; left: -5%; width: 110%;
-  background: repeating-linear-gradient(90deg, #e8c93a 0px, #e8c93a 80px, var(--noir) 80px, var(--noir) 100px);
-  color: var(--noir); font-family: 'Special Elite', monospace; font-size: 0.85rem;
+  background: repeating-linear-gradient(90deg, #e8c93a 0px, #e8c93a 80px, #2c1810 80px, #2c1810 100px);
+  color: #2c1810; font-family: 'Special Elite', monospace; font-size: 0.85rem;
   letter-spacing: 0.3em; text-transform: uppercase; padding: 0.4em 0;
-  text-align: center; transform: rotate(-1deg); z-index: 5;
-  overflow: hidden; white-space: nowrap;
+  text-align: center; transform: rotate(-1deg); z-index: 5; overflow: hidden; white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(44,24,16,0.15);
 }
 .police-tape span { display: inline-block; animation: scroll-tape 20s linear infinite; }
 @keyframes scroll-tape { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-.crime-title {
-  font-family: 'Playfair Display', serif; font-size: clamp(2rem, 7vw, 5rem);
-  font-weight: 700; text-align: center; line-height: 1.15;
-  margin-bottom: 0.5em; position: relative; z-index: 2;
-}
-.crime-title .line1 { display: block; color: var(--rose); font-style: italic; font-weight: 400; font-size: 0.5em; letter-spacing: 0.2em; text-transform: uppercase; }
-.crime-title .line2 { display: block; background: linear-gradient(135deg, var(--corail), var(--rose), var(--abricot)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.crime-title .line3 { display: block; color: var(--sang-clair); font-size: 0.4em; font-family: 'Special Elite', monospace; letter-spacing: 0.25em; margin-top: 0.3em; }
-.crime-date { font-family: 'Special Elite', monospace; color: var(--or-pale); font-size: clamp(0.9rem, 2vw, 1.2rem); letter-spacing: 0.15em; margin-bottom: 2rem; z-index: 2; }
-.crime-narrative {
-  max-width: 700px; text-align: center; font-size: clamp(1rem, 2.5vw, 1.25rem);
-  line-height: 1.8; color: rgba(26,26,26,0.9); z-index: 2;
-  margin-bottom: 2.5rem; font-weight: 300;
-}
-.crime-narrative em { color: var(--corail); font-weight: 400; }
-.crime-narrative strong { color: var(--or-pale); font-weight: 600; }
-.btn-enquete {
-  font-family: 'Special Elite', monospace; font-size: clamp(1rem, 2.5vw, 1.3rem);
-  color: var(--noir); background: linear-gradient(135deg, var(--abricot), var(--or-pale));
-  border: none; padding: 0.8em 2.5em; cursor: pointer;
-  letter-spacing: 0.15em; text-transform: uppercase; z-index: 2;
-  transition: all 0.3s; clip-path: polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%);
-}
-.btn-enquete:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(212,168,67,0.3); }
+.crime-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,7vw,5rem); font-weight:700; text-align:center; line-height:1.15; margin-bottom:0.5em; position:relative; z-index:2; }
+.crime-title .line1 { display:block; color:var(--sang-clair); font-style:italic; font-weight:400; font-size:0.5em; letter-spacing:0.2em; text-transform:uppercase; }
+.crime-title .line2 { display:block; color:var(--encre); }
+.crime-title .line3 { display:block; color:var(--tampon); font-size:0.4em; font-family:'Special Elite',monospace; letter-spacing:0.25em; margin-top:0.3em; }
+.crime-date { font-family:'Special Elite',monospace; color:var(--or-vieux); font-size:clamp(0.9rem,2vw,1.2rem); letter-spacing:0.15em; margin-bottom:2rem; z-index:2; }
+.crime-narrative { max-width:700px; text-align:center; font-size:clamp(1rem,2.5vw,1.25rem); line-height:1.8; color:var(--encre-douce); z-index:2; margin-bottom:2.5rem; font-weight:300; }
+.crime-narrative em { color:var(--tampon); font-weight:400; }
+.crime-narrative strong { color:var(--encre); font-weight:600; }
+.btn-enquete { font-family:'Special Elite',monospace; font-size:clamp(1rem,2.5vw,1.3rem); color:var(--parchemin); background:var(--sang-clair); border:none; padding:0.8em 2.5em; cursor:pointer; letter-spacing:0.15em; text-transform:uppercase; z-index:2; transition:all 0.3s; box-shadow:0 3px 10px rgba(139,26,26,0.2); }
+.btn-enquete:hover { transform:scale(1.05); background:var(--sang); box-shadow:0 5px 20px rgba(139,26,26,0.3); }
 
-/* ══════ ENQUÊTE SECTIONS ══════ */
-.enquete-section { display: none; padding: 2rem 1rem; max-width: 800px; margin: 0 auto; }
-.enquete-section.active { display: block; animation: section-in 0.8s ease forwards; }
-@keyframes section-in { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.enquete-section { display:none; padding:2rem 1rem; max-width:800px; margin:0 auto; }
+.enquete-section.active { display:block; animation:section-in 0.8s ease forwards; }
+@keyframes section-in { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
 
-.evidence-card {
-  background: linear-gradient(145deg, rgba(44,24,16,0.9), rgba(26,26,26,0.95));
-  border: 1px solid rgba(212,168,67,0.2); border-radius: 2px;
-  padding: 2rem; margin: 2rem 0; position: relative; overflow: hidden;
-}
-.evidence-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--corail), var(--sang-clair)); }
-.evidence-card::after { content: 'PIÈCE À CONVICTION'; position: absolute; top: 0.8rem; right: 1rem; font-family: 'Special Elite', monospace; font-size: 0.65rem; color: var(--or); letter-spacing: 0.2em; opacity: 0.5; }
-.evidence-number { font-family: 'Special Elite', monospace; font-size: 0.8rem; color: var(--sang-clair); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
-.evidence-title { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.8rem); color: var(--rose); margin-bottom: 1rem; font-weight: 700; }
-.evidence-text { font-size: 1.05rem; line-height: 1.8; color: rgba(26,26,26,0.85); font-weight: 300; margin-bottom: 1.5rem; }
-.evidence-text em { color: var(--abricot); font-weight: 400; }
+.evidence-card { background:var(--parchemin); border:1px solid rgba(156,122,60,0.25); padding:2rem; margin:2rem 0; position:relative; overflow:hidden; box-shadow:0 2px 12px rgba(44,24,16,0.08), inset 0 0 40px rgba(111,78,55,0.04); }
+.evidence-card::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background:linear-gradient(to bottom, var(--tampon), var(--sang)); }
+.evidence-card::after { content:'PIÈCE À CONVICTION'; position:absolute; top:0.8rem; right:1rem; font-family:'Special Elite',monospace; font-size:0.65rem; color:var(--tampon); letter-spacing:0.2em; opacity:0.4; }
+.evidence-number { font-family:'Special Elite',monospace; font-size:0.8rem; color:var(--tampon); letter-spacing:0.3em; text-transform:uppercase; margin-bottom:1rem; }
+.evidence-title { font-family:'Playfair Display',serif; font-size:clamp(1.3rem,3vw,1.8rem); color:var(--encre); margin-bottom:1rem; font-weight:700; }
+.evidence-text { font-size:1.05rem; line-height:1.8; color:var(--encre-douce); font-weight:300; margin-bottom:1.5rem; }
+.evidence-text em { color:var(--sang-clair); font-weight:400; }
 
-.enigme-zone {
-  background: rgba(245,230,208,0.05); border: 1px dashed rgba(212,168,67,0.3);
-  padding: 1.5rem; margin: 1.5rem 0; text-align: center;
-}
-.enigme-label { font-family: 'Special Elite', monospace; font-size: 0.75rem; color: var(--or); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1rem; }
-.enigme-question { font-family: 'Playfair Display', serif; font-size: clamp(1.05rem, 2.5vw, 1.3rem); color: var(--creme); margin-bottom: 1.5rem; line-height: 1.6; font-style: italic; }
-.input-group { display: flex; gap: 0.5rem; max-width: 450px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
-.enigme-input {
-  font-family: 'Special Elite', monospace; font-size: 1.1rem; padding: 0.7em 1.2em;
-  background: rgba(26,26,26,0.8); border: 1px solid rgba(212,168,67,0.3);
-  color: var(--creme); flex: 1; min-width: 180px; text-align: center;
-  letter-spacing: 0.1em; transition: border-color 0.3s;
-}
-.enigme-input:focus { outline: none; border-color: var(--or-pale); box-shadow: 0 0 15px rgba(212,168,67,0.15); }
-.enigme-input::placeholder { color: rgba(250,243,232,0.25); }
-.btn-valider {
-  font-family: 'Special Elite', monospace; font-size: 0.9rem; padding: 0.7em 1.5em;
-  background: var(--sang-clair); color: var(--creme); border: none; cursor: pointer;
-  letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.3s;
-}
-.btn-valider:hover { background: var(--sang); transform: scale(1.03); }
-.feedback { font-family: 'Special Elite', monospace; font-size: 0.9rem; margin-top: 1rem; min-height: 1.5em; }
-.feedback.error { color: var(--sang-clair); animation: shake 0.4s ease; }
-.feedback.success { color: var(--teal); }
-.feedback.hint { color: var(--abricot); font-style: italic; }
-@keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-5px); } 40%,80% { transform: translateX(5px); } }
+.enigme-zone { background:rgba(230,213,184,0.3); border:1px dashed var(--or-vieux); padding:1.5rem; margin:1.5rem 0; text-align:center; }
+.enigme-label { font-family:'Special Elite',monospace; font-size:0.75rem; color:var(--or-vieux); letter-spacing:0.25em; text-transform:uppercase; margin-bottom:1rem; }
+.enigme-question { font-family:'Playfair Display',serif; font-size:clamp(1.05rem,2.5vw,1.3rem); color:var(--encre); margin-bottom:1.5rem; line-height:1.6; font-style:italic; }
+.input-group { display:flex; gap:0.5rem; max-width:450px; margin:0 auto; flex-wrap:wrap; justify-content:center; }
+.enigme-input { font-family:'Special Elite',monospace; font-size:1.1rem; padding:0.7em 1.2em; background:white; border:1px solid var(--or-vieux); color:var(--encre); flex:1; min-width:180px; text-align:center; letter-spacing:0.1em; transition:border-color 0.3s; }
+.enigme-input:focus { outline:none; border-color:var(--sang-clair); box-shadow:0 0 12px rgba(165,42,42,0.1); }
+.enigme-input::placeholder { color:rgba(44,24,16,0.3); }
+.btn-valider { font-family:'Special Elite',monospace; font-size:0.9rem; padding:0.7em 1.5em; background:var(--sang-clair); color:var(--parchemin); border:none; cursor:pointer; letter-spacing:0.15em; text-transform:uppercase; transition:all 0.3s; }
+.btn-valider:hover { background:var(--sang); transform:scale(1.03); }
+.feedback { font-family:'Special Elite',monospace; font-size:0.9rem; margin-top:1rem; min-height:1.5em; }
+.feedback.error { color:var(--tampon); animation:shake 0.4s ease; }
+.feedback.success { color:var(--reussite); }
+.feedback.hint { color:var(--or-vieux); font-style:italic; }
+@keyframes shake { 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-5px);} 40%,80%{transform:translateX(5px);} }
 
-.choices-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
-.choice-btn {
-  font-family: 'Crimson Pro', serif; font-size: 1rem; padding: 1em 1.2em;
-  background: rgba(44,24,16,0.6); border: 1px solid rgba(252,163,173,0.2);
-  color: var(--creme); cursor: pointer; transition: all 0.3s; text-align: left; line-height: 1.5;
-}
-.choice-btn:hover { background: rgba(252,163,173,0.1); border-color: var(--corail); transform: translateY(-2px); }
-.choice-btn.correct { background: rgba(78,205,196,0.15); border-color: var(--teal); color: var(--teal); }
-.choice-btn.wrong { background: rgba(139,26,26,0.2); border-color: var(--sang-clair); color: var(--sang-clair); opacity: 0.6; }
+.choices-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin:1.5rem 0; }
+.choice-btn { font-family:'Crimson Pro',serif; font-size:1rem; padding:1em 1.2em; background:white; border:1px solid rgba(156,122,60,0.3); color:var(--encre); cursor:pointer; transition:all 0.3s; text-align:left; line-height:1.5; box-shadow:0 1px 4px rgba(44,24,16,0.06); }
+.choice-btn:hover { border-color:var(--sang-clair); transform:translateY(-2px); box-shadow:0 3px 10px rgba(44,24,16,0.1); }
+.choice-btn.correct { background:var(--indice-bg); border-color:var(--reussite); color:var(--reussite); }
+.choice-btn.wrong { background:#fef2f2; border-color:var(--tampon); color:var(--tampon); opacity:0.6; }
 
-.indice-unlocked {
-  display: none; padding: 1.5rem; margin-top: 1.5rem; text-align: center;
-  background: linear-gradient(135deg, rgba(78,205,196,0.08), rgba(212,168,67,0.08));
-  border: 1px solid rgba(78,205,196,0.3);
-}
-.indice-unlocked.show { display: block; animation: unlock-glow 1s ease; }
-@keyframes unlock-glow {
-  0% { box-shadow: 0 0 0 rgba(78,205,196,0); opacity: 0; transform: scale(0.95); }
-  50% { box-shadow: 0 0 30px rgba(78,205,196,0.2); }
-  100% { box-shadow: 0 0 0 rgba(78,205,196,0); opacity: 1; transform: scale(1); }
-}
-.indice-label { font-family: 'Special Elite', monospace; font-size: 0.7rem; color: var(--teal); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 0.8rem; }
-.indice-content { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--abricot); font-style: italic; }
+.indice-unlocked { display:none; padding:1.5rem; margin-top:1.5rem; text-align:center; background:var(--indice-bg); border:1px solid var(--indice-bord); }
+.indice-unlocked.show { display:block; animation:unlock-glow 1s ease; }
+@keyframes unlock-glow { 0%{box-shadow:0 0 0 rgba(82,183,136,0);opacity:0;transform:scale(0.95);} 50%{box-shadow:0 0 20px rgba(82,183,136,0.15);} 100%{box-shadow:0 0 0 rgba(82,183,136,0);opacity:1;transform:scale(1);} }
+.indice-label { font-family:'Special Elite',monospace; font-size:0.7rem; color:var(--reussite); letter-spacing:0.3em; text-transform:uppercase; margin-bottom:0.8rem; }
+.indice-content { font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--encre); font-style:italic; }
 
-.btn-continuer {
-  display: none; margin: 2rem auto;
-  font-family: 'Special Elite', monospace; font-size: 1rem; padding: 0.8em 2em;
-  background: transparent; border: 1px solid var(--or); color: var(--or); cursor: pointer;
-  letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s;
-}
-.btn-continuer.show { display: block; animation: fade-in 0.5s ease forwards; }
-.btn-continuer:hover { background: rgba(212,168,67,0.1); box-shadow: 0 0 20px rgba(212,168,67,0.15); }
+.btn-continuer { display:none; margin:2rem auto; font-family:'Special Elite',monospace; font-size:1rem; padding:0.8em 2em; background:transparent; border:1px solid var(--sepia); color:var(--sepia); cursor:pointer; letter-spacing:0.2em; text-transform:uppercase; transition:all 0.3s; }
+.btn-continuer.show { display:block; animation:fade-in 0.5s ease forwards; }
+.btn-continuer:hover { background:rgba(107,76,59,0.06); box-shadow:0 0 15px rgba(107,76,59,0.1); }
 
-.progress-bar {
-  position: fixed; top: 0; left: 0; height: 3px;
-  background: linear-gradient(90deg, var(--sang-clair), var(--corail), var(--abricot));
-  z-index: 100; transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 0 0 10px rgba(252,163,173,0.5);
-}
-.indices-collectes {
-  position: fixed; top: 50%; right: 0; transform: translateY(-50%);
-  z-index: 50; display: flex; flex-direction: column; gap: 0.5rem; padding: 0.5rem;
-}
-.indice-dot {
-  width: 12px; height: 12px; border-radius: 50%;
-  border: 2px solid rgba(212,168,67,0.3); background: transparent; transition: all 0.5s;
-}
-.indice-dot.found { background: var(--or-pale); border-color: var(--or-pale); box-shadow: 0 0 8px rgba(212,168,67,0.5); }
+.progress-bar { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--sang),var(--tampon),var(--or-vieux)); z-index:100; transition:width 0.8s cubic-bezier(0.23,1,0.32,1); box-shadow:0 0 8px rgba(165,42,42,0.3); }
+.indices-collectes { position:fixed; top:50%; right:0; transform:translateY(-50%); z-index:50; display:flex; flex-direction:column; gap:0.5rem; padding:0.5rem; }
+.indice-dot { width:12px; height:12px; border-radius:50%; border:2px solid rgba(156,122,60,0.3); background:transparent; transition:all 0.5s; }
+.indice-dot.found { background:var(--or-vieux); border-color:var(--or-vieux); box-shadow:0 0 8px rgba(156,122,60,0.4); }
 
-.cipher-display {
-  font-family: 'Special Elite', monospace; font-size: clamp(1rem, 3vw, 1.5rem);
-  color: var(--or-pale); letter-spacing: 0.15em; margin: 1rem 0; padding: 1rem;
-  background: rgba(255,255,255,0.5); border: 1px solid rgba(139,26,26,0.3); line-height: 1.8;
-}
-.hint-btn {
-  font-family: 'Special Elite', monospace; font-size: 0.75rem; color: var(--abricot);
-  background: none; border: none; cursor: pointer; letter-spacing: 0.15em;
-  opacity: 0.7; transition: opacity 0.3s; margin-top: 0.5rem;
-}
-.hint-btn:hover { opacity: 1; text-decoration: underline; }
+.cipher-display { font-family:'Special Elite',monospace; font-size:clamp(1rem,3vw,1.5rem); color:var(--encre); letter-spacing:0.15em; margin:1rem 0; padding:1rem; background:white; border:1px solid rgba(156,122,60,0.2); line-height:1.8; box-shadow:inset 0 1px 4px rgba(44,24,16,0.05); }
+.hint-btn { font-family:'Special Elite',monospace; font-size:0.75rem; color:var(--sepia-clair); background:none; border:none; cursor:pointer; letter-spacing:0.15em; opacity:0.5; transition:opacity 0.3s; margin-top:0.5rem; }
+.hint-btn:hover { opacity:1; text-decoration:underline; }
 
-/* Grille de lettres 8x8 */
-.letter-grid {
-  display: inline-grid; grid-template-columns: repeat(8, 1fr);
-  gap: 5px; margin: 1rem auto; max-width: 420px;
-}
-.letter-cell {
-  font-family: 'Special Elite', monospace; font-size: clamp(0.9rem, 2.5vw, 1.3rem);
-  width: clamp(34px, 7vw, 46px); height: clamp(34px, 7vw, 46px);
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.6); border: 1px solid rgba(139,26,26,0.3);
-  color: var(--or-pale); transition: all 0.3s; user-select: none; cursor: pointer;
-}
-.letter-cell:hover { border-color: var(--corail); }
-.letter-cell.highlight { border-color: var(--corail); color: var(--corail); background: rgba(192,57,43,0.15); }
-.letter-cell.dim { opacity: 0.3; }
-.letter-cell.path-reveal { border-color: var(--teal); color: var(--teal); background: rgba(42,138,132,0.15); }
+.letter-grid { display:inline-grid; grid-template-columns:repeat(8,1fr); gap:5px; margin:1rem auto; max-width:420px; }
+.letter-cell { font-family:'Special Elite',monospace; font-size:clamp(0.9rem,2.5vw,1.3rem); width:clamp(34px,7vw,46px); height:clamp(34px,7vw,46px); display:flex; align-items:center; justify-content:center; background:white; border:1px solid rgba(156,122,60,0.2); color:var(--encre); transition:all 0.3s; user-select:none; cursor:pointer; }
+.letter-cell:hover { border-color:var(--sang-clair); background:#fef8f5; }
+.letter-cell.highlight { border-color:var(--tampon); color:var(--tampon); background:#fef2f2; }
+.letter-cell.dim { opacity:0.2; }
+.letter-cell.path-reveal { border-color:var(--reussite); color:var(--reussite); background:var(--indice-bg); font-weight:600; }
 
-.suspect-table {
-  width: 100%; border-collapse: collapse; margin: 1rem 0;
-  font-family: 'Crimson Pro', serif; font-size: 0.95rem;
-}
-.suspect-table th {
-  font-family: 'Special Elite', monospace; font-size: 0.7rem;
-  color: var(--or); letter-spacing: 0.2em; text-transform: uppercase;
-  padding: 0.8rem 0.5rem; border-bottom: 1px solid rgba(139,26,26,0.3); text-align: left;
-}
-.suspect-table td {
-  padding: 0.7rem 0.5rem; border-bottom: 1px solid rgba(139,26,26,0.08);
-  color: rgba(26,26,26,0.85); vertical-align: top;
-}
-.suspect-table tr:hover td { background: rgba(192,57,43,0.05); }
-.attempt-counter { font-family: 'Special Elite', monospace; font-size: 0.75rem; color: rgba(26,26,26,0.4); margin-top: 0.5rem; }
+.suspect-table { width:100%; border-collapse:collapse; margin:1rem 0; font-family:'Crimson Pro',serif; font-size:0.95rem; }
+.suspect-table th { font-family:'Special Elite',monospace; font-size:0.7rem; color:var(--or-vieux); letter-spacing:0.2em; text-transform:uppercase; padding:0.8rem 0.5rem; border-bottom:1px solid var(--or-vieux); text-align:left; }
+.suspect-table td { padding:0.7rem 0.5rem; border-bottom:1px solid rgba(156,122,60,0.12); color:var(--encre-douce); vertical-align:top; }
+.suspect-table tr:hover td { background:rgba(230,213,184,0.2); }
+.attempt-counter { font-family:'Special Elite',monospace; font-size:0.75rem; color:var(--sepia-clair); margin-top:0.5rem; opacity:0.5; }
 
-.blood-drip {
-  position: absolute; width: 3px;
-  background: linear-gradient(to bottom, var(--sang-clair), transparent);
-  top: 0; animation: drip 4s ease-in infinite; opacity: 0.3;
-}
-@keyframes drip { 0% { height: 0; opacity: 0.3; } 70% { height: 80px; opacity: 0.3; } 100% { height: 100px; opacity: 0; } }
+.blood-drip { position:absolute; width:2px; background:linear-gradient(to bottom, rgba(165,42,42,0.2), transparent); top:0; animation:drip 4s ease-in infinite; opacity:0.4; }
+@keyframes drip { 0%{height:0;opacity:0.4;} 70%{height:60px;opacity:0.4;} 100%{height:70px;opacity:0;} }
 
-/* ══════ FINALE ══════ */
-#finale { display: none; min-height: 100vh; position: relative; overflow: hidden; }
-#finale.active {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 2rem; animation: finale-in 1.5s ease forwards;
-}
-@keyframes finale-in { from { opacity: 0; } to { opacity: 1; } }
-.finale-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 30% 40%, rgba(255,185,175,0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 60%, rgba(255,215,160,0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(252,163,173,0.12) 0%, transparent 40%),
-    #ffffff;
-}
-.confetti-container { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.confetti { position: absolute; width: 10px; height: 10px; top: -10px; animation: confetti-fall linear infinite; }
-@keyframes confetti-fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-.finale-content { position: relative; z-index: 2; text-align: center; max-width: 700px; }
-.finale-badge {
-  display: inline-block; font-family: 'Special Elite', monospace; font-size: 0.75rem;
-  color: var(--teal); letter-spacing: 0.4em; text-transform: uppercase;
-  border: 1px solid rgba(42,138,132,0.6); padding: 0.4em 1.5em; margin-bottom: 2rem;
-  animation: pulse-border 2s ease infinite;
-}
-@keyframes pulse-border { 0%,100% { border-color: rgba(42,138,132,0.6); } 50% { border-color: rgba(42,138,132,0.9); } }
-.finale-title {
-  font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 700; line-height: 1.1; margin-bottom: 1rem;
-  background: linear-gradient(135deg, var(--rose), var(--abricot), var(--corail), var(--or-pale));
-  background-size: 200% 200%;
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  animation: gradient-shift 4s ease infinite;
-}
-@keyframes gradient-shift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-.finale-subtitle { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.8rem); font-style: italic; color: var(--rose); margin-bottom: 2.5rem; font-weight: 400; }
-.cadeau-reveal {
-  background: linear-gradient(145deg, rgba(240,240,240,0.95), rgba(255,255,255,0.9));
-  border: 2px solid var(--or); padding: 2.5rem; margin: 1.5rem auto;
-  position: relative; max-width: 550px;
-}
-.cadeau-reveal::before { content: '🎭'; position: absolute; top: -1.2rem; left: 50%; transform: translateX(-50%); font-size: 2rem; background: #ffffff; padding: 0 0.5em; }
-.cadeau-label { font-family: 'Special Elite', monospace; font-size: 0.7rem; color: var(--or); letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 1.5rem; }
-.cadeau-titre { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--abricot); margin-bottom: 0.5rem; line-height: 1.2; }
-.cadeau-details { font-family: 'Crimson Pro', serif; font-size: 1.2rem; color: var(--rose); margin-bottom: 0.3rem; font-weight: 300; }
-.cadeau-date { font-family: 'Special Elite', monospace; font-size: 1.3rem; color: var(--or-pale); margin-top: 1rem; letter-spacing: 0.1em; }
-.finale-message {
-  font-family: 'Crimson Pro', serif; font-size: clamp(1.05rem, 2.5vw, 1.25rem);
-  color: rgba(26,26,26,0.9); line-height: 1.8; margin-top: 2.5rem;
-  font-weight: 300; max-width: 550px; margin-left: auto; margin-right: auto;
-}
-.finale-message em { color: var(--corail); font-weight: 400; }
-.signature { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; color: var(--abricot); margin-top: 2rem; }
-.heart-float { position: absolute; font-size: 1.5rem; animation: float-heart 6s ease-in-out infinite; opacity: 0.3; }
-@keyframes float-heart { 0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.2; } 50% { transform: translateY(-30px) rotate(15deg); opacity: 0.5; } }
+#finale { display:none; min-height:100vh; position:relative; overflow:hidden; }
+#finale.active { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; animation:finale-in 1.5s ease forwards; }
+@keyframes finale-in { from{opacity:0;} to{opacity:1;} }
+.finale-bg { position:absolute; inset:0; background: radial-gradient(ellipse at 30% 40%, rgba(255,185,175,0.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(255,215,160,0.08) 0%, transparent 50%), linear-gradient(175deg, var(--papier) 0%, var(--papier-chaud) 50%, var(--kraft) 100%); }
+.confetti-container { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.confetti { position:absolute; width:10px; height:10px; top:-10px; animation:confetti-fall linear infinite; }
+@keyframes confetti-fall { 0%{transform:translateY(-10px) rotate(0deg);opacity:1;} 100%{transform:translateY(110vh) rotate(720deg);opacity:0;} }
+.finale-content { position:relative; z-index:2; text-align:center; max-width:700px; }
+.finale-badge { display:inline-block; font-family:'Special Elite',monospace; font-size:0.75rem; color:var(--reussite); letter-spacing:0.4em; text-transform:uppercase; border:1px solid var(--reussite); padding:0.4em 1.5em; margin-bottom:2rem; animation:pulse-border 2s ease infinite; }
+@keyframes pulse-border { 0%,100%{border-color:rgba(45,106,79,0.4);} 50%{border-color:rgba(45,106,79,0.8);} }
+.finale-title { font-family:'Playfair Display',serif; font-size:clamp(2.5rem,8vw,5rem); font-weight:700; line-height:1.1; margin-bottom:1rem; color:var(--encre); }
+.finale-subtitle { font-family:'Playfair Display',serif; font-size:clamp(1.3rem,3vw,1.8rem); font-style:italic; color:var(--sang-clair); margin-bottom:2.5rem; font-weight:400; }
+.cadeau-reveal { background:white; border:2px solid var(--or-vieux); padding:2.5rem; margin:1.5rem auto; position:relative; max-width:550px; box-shadow:0 4px 20px rgba(44,24,16,0.1); }
+.cadeau-reveal::before { content:'🎭'; position:absolute; top:-1.2rem; left:50%; transform:translateX(-50%); font-size:2rem; background:var(--papier); padding:0 0.5em; }
+.cadeau-label { font-family:'Special Elite',monospace; font-size:0.7rem; color:var(--or-vieux); letter-spacing:0.4em; text-transform:uppercase; margin-bottom:1.5rem; }
+.cadeau-titre { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:var(--encre); margin-bottom:0.5rem; line-height:1.2; }
+.cadeau-details { font-family:'Crimson Pro',serif; font-size:1.2rem; color:var(--sepia); margin-bottom:0.3rem; font-weight:300; }
+.cadeau-date { font-family:'Special Elite',monospace; font-size:1.3rem; color:var(--tampon); margin-top:1rem; letter-spacing:0.1em; }
+.finale-message { font-family:'Crimson Pro',serif; font-size:clamp(1.05rem,2.5vw,1.25rem); color:var(--encre-douce); line-height:1.8; margin-top:2.5rem; font-weight:300; max-width:550px; margin-left:auto; margin-right:auto; }
+.finale-message em { color:var(--sang-clair); font-weight:400; }
+.signature { font-family:'Playfair Display',serif; font-size:1.4rem; font-style:italic; color:var(--encre); margin-top:2rem; font-weight:700; }
+.heart-float { position:absolute; font-size:1.5rem; animation:float-heart 6s ease-in-out infinite; opacity:0.25; }
+@keyframes float-heart { 0%,100%{transform:translateY(0) rotate(0deg);opacity:0.1;} 50%{transform:translateY(-30px) rotate(15deg);opacity:0.3;} }
 
-@media (max-width: 600px) {
-  .evidence-card { padding: 1.2rem; }
-  .evidence-card::after { display: none; }
-  .enigme-zone { padding: 1rem; }
-  .cadeau-reveal { padding: 1.5rem; }
-  .indices-collectes { display: none; }
-  .choices-grid { grid-template-columns: 1fr; }
-  .suspect-table { font-size: 0.85rem; }
-  .letter-grid { gap: 3px; }
-}
+@media (max-width:600px) { .evidence-card{padding:1.2rem;} .evidence-card::after{display:none;} .enigme-zone{padding:1rem;} .cadeau-reveal{padding:1.5rem;} .indices-collectes{display:none;} .choices-grid{grid-template-columns:1fr;} .suspect-table{font-size:0.85rem;} .letter-grid{gap:3px;} }
 </style>
 </head>
 <body>
@@ -424,22 +289,22 @@ body {
         <table class="suspect-table">
           <tr><th>Suspect</th><th>Déclaration 1</th><th>Déclaration 2</th></tr>
           <tr>
-            <td style="color: var(--corail); font-weight: 600;">🐍 Bête à Man Ibè</td>
+            <td style="color: var(--tampon); font-weight: 600;">🐍 Bête à Man Ibè</td>
             <td>« Le crime a eu lieu sur la plage des Salines. »</td>
             <td>« La Diablesse portait des chaussures rouges. »</td>
           </tr>
           <tr>
-            <td style="color: var(--corail); font-weight: 600;">👠 La Diablesse</td>
+            <td style="color: var(--tampon); font-weight: 600;">👠 La Diablesse</td>
             <td>« Je portais des chaussures blanches. »</td>
             <td>« La Bête à Man Ibè était chez le Dorlis. »</td>
           </tr>
           <tr>
-            <td style="color: var(--corail); font-weight: 600;">🌙 Le Dorlis</td>
+            <td style="color: var(--tampon); font-weight: 600;">🌙 Le Dorlis</td>
             <td>« La Bête à Man Ibè n'était pas chez moi. »</td>
             <td>« Le crime a eu lieu sur la Savane. »</td>
           </tr>
           <tr>
-            <td style="color: var(--corail); font-weight: 600;">🔥 Le Volcan</td>
+            <td style="color: var(--tampon); font-weight: 600;">🔥 Le Volcan</td>
             <td>« La Diablesse portait des chaussures rouges. »</td>
             <td>« J'ai vu le Dorlis sur la plage des Salines. »</td>
           </tr>
@@ -550,9 +415,9 @@ body {
         <br>
         <p>Tu pensais résoudre un crime, mais c'était en fait une <em>déclaration d'amitié</em> déguisée en enquête policière. 🕵️‍♀️</p>
         <br>
-        <p>Pour tes <strong style="color: var(--or-pale);">années de folie, de rire et de complicité</strong>, tu mérites une soirée aussi extraordinaire que toi.</p>
+        <p>Pour tes <strong style="color: var(--or-vieux);">années de folie, de rire et de complicité</strong>, tu mérites une soirée aussi extraordinaire que toi.</p>
         <br>
-        <p>Prépare-toi pour le <strong style="color: var(--or-pale);">1er avril 2026</strong> — et non, ce n'est <em>pas</em> un poisson d'avril. 🐟😉</p>
+        <p>Prépare-toi pour le <strong style="color: var(--or-vieux);">1er avril 2026</strong> — et non, ce n'est <em>pas</em> un poisson d'avril. 🐟😉</p>
         <br>
         <p class="signature">C'est ce que mérite une Queen Badass comme toi ! 👑🔥</p>
       </div>
@@ -787,7 +652,7 @@ function renderFragments() {
     if (fragmentsRevealed[1] && m2[i]) show = true;
     if (fragmentsRevealed[2] && m3[i]) show = true;
     return show
-      ? `<span style="color:var(--teal);font-weight:600;">${ch}</span>`
+      ? `<span style="color:var(--reussite);font-weight:600;">${ch}</span>`
       : `<span style="color:var(--sang-clair);">_</span>`;
   }).join(' ');
 
@@ -868,7 +733,7 @@ function showFinale() {
 }
 function createConfetti() {
   const c = document.getElementById('confettiContainer');
-  const colors = ['#ffb9af','#ffd7a0','#fca3ad','#d4a843','#4ecdc4','#e8c97a'];
+  const colors = ['#c0392b','#d4a843','#e8c97a','#52b788','#fca3ad','#ffb9af','#ffd7a0'];
   for (let i = 0; i < 60; i++) {
     const el = document.createElement('div'); el.className = 'confetti';
     el.style.left = Math.random()*100+'%';
