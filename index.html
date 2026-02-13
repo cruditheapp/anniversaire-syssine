@@ -55,7 +55,7 @@ body {
 }
 .intro-instruction {
   font-family: 'Crimson Pro', serif; font-size: clamp(0.85rem, 2vw, 1.1rem);
-  color: rgba(250,243,232,0.4); margin-top: 3rem; letter-spacing: 0.15em;
+  color: rgba(26,26,26,0.6); margin-top: 3rem; letter-spacing: 0.15em;
   opacity: 0; animation: pulse-fade 2s ease 1.5s infinite;
 }
 @keyframes fade-in { to { opacity: 1; } }
@@ -104,7 +104,7 @@ body {
 .crime-date { font-family: 'Special Elite', monospace; color: var(--or-pale); font-size: clamp(0.9rem, 2vw, 1.2rem); letter-spacing: 0.15em; margin-bottom: 2rem; z-index: 2; }
 .crime-narrative {
   max-width: 700px; text-align: center; font-size: clamp(1rem, 2.5vw, 1.25rem);
-  line-height: 1.8; color: rgba(250,243,232,0.85); z-index: 2;
+  line-height: 1.8; color: rgba(26,26,26,0.9); z-index: 2;
   margin-bottom: 2.5rem; font-weight: 300;
 }
 .crime-narrative em { color: var(--corail); font-weight: 400; }
@@ -132,7 +132,7 @@ body {
 .evidence-card::after { content: 'PIÈCE À CONVICTION'; position: absolute; top: 0.8rem; right: 1rem; font-family: 'Special Elite', monospace; font-size: 0.65rem; color: var(--or); letter-spacing: 0.2em; opacity: 0.5; }
 .evidence-number { font-family: 'Special Elite', monospace; font-size: 0.8rem; color: var(--sang-clair); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
 .evidence-title { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.8rem); color: var(--rose); margin-bottom: 1rem; font-weight: 700; }
-.evidence-text { font-size: 1.05rem; line-height: 1.8; color: rgba(250,243,232,0.8); font-weight: 300; margin-bottom: 1.5rem; }
+.evidence-text { font-size: 1.05rem; line-height: 1.8; color: rgba(26,26,26,0.85); font-weight: 300; margin-bottom: 1.5rem; }
 .evidence-text em { color: var(--abricot); font-weight: 400; }
 
 .enigme-zone {
@@ -214,12 +214,12 @@ body {
 .cipher-display {
   font-family: 'Special Elite', monospace; font-size: clamp(1rem, 3vw, 1.5rem);
   color: var(--or-pale); letter-spacing: 0.15em; margin: 1rem 0; padding: 1rem;
-  background: rgba(0,0,0,0.3); border: 1px solid rgba(212,168,67,0.2); line-height: 1.8;
+  background: rgba(255,255,255,0.5); border: 1px solid rgba(139,26,26,0.3); line-height: 1.8;
 }
 .hint-btn {
   font-family: 'Special Elite', monospace; font-size: 0.75rem; color: var(--abricot);
   background: none; border: none; cursor: pointer; letter-spacing: 0.15em;
-  opacity: 0.5; transition: opacity 0.3s; margin-top: 0.5rem;
+  opacity: 0.7; transition: opacity 0.3s; margin-top: 0.5rem;
 }
 .hint-btn:hover { opacity: 1; text-decoration: underline; }
 
@@ -232,13 +232,13 @@ body {
   font-family: 'Special Elite', monospace; font-size: clamp(0.9rem, 2.5vw, 1.3rem);
   width: clamp(34px, 7vw, 46px); height: clamp(34px, 7vw, 46px);
   display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.4); border: 1px solid rgba(212,168,67,0.15);
+  background: rgba(255,255,255,0.6); border: 1px solid rgba(139,26,26,0.3);
   color: var(--or-pale); transition: all 0.3s; user-select: none; cursor: pointer;
 }
-.letter-cell:hover { border-color: rgba(252,163,173,0.4); }
-.letter-cell.highlight { border-color: var(--corail); color: var(--corail); background: rgba(252,163,173,0.1); }
-.letter-cell.dim { opacity: 0.2; }
-.letter-cell.path-reveal { border-color: var(--teal); color: var(--teal); background: rgba(78,205,196,0.1); }
+.letter-cell:hover { border-color: var(--corail); }
+.letter-cell.highlight { border-color: var(--corail); color: var(--corail); background: rgba(192,57,43,0.15); }
+.letter-cell.dim { opacity: 0.3; }
+.letter-cell.path-reveal { border-color: var(--teal); color: var(--teal); background: rgba(42,138,132,0.15); }
 
 .suspect-table {
   width: 100%; border-collapse: collapse; margin: 1rem 0;
@@ -247,14 +247,14 @@ body {
 .suspect-table th {
   font-family: 'Special Elite', monospace; font-size: 0.7rem;
   color: var(--or); letter-spacing: 0.2em; text-transform: uppercase;
-  padding: 0.8rem 0.5rem; border-bottom: 1px solid rgba(212,168,67,0.3); text-align: left;
+  padding: 0.8rem 0.5rem; border-bottom: 1px solid rgba(139,26,26,0.3); text-align: left;
 }
 .suspect-table td {
-  padding: 0.7rem 0.5rem; border-bottom: 1px solid rgba(212,168,67,0.08);
-  color: rgba(250,243,232,0.8); vertical-align: top;
+  padding: 0.7rem 0.5rem; border-bottom: 1px solid rgba(139,26,26,0.08);
+  color: rgba(26,26,26,0.85); vertical-align: top;
 }
-.suspect-table tr:hover td { background: rgba(252,163,173,0.03); }
-.attempt-counter { font-family: 'Special Elite', monospace; font-size: 0.75rem; color: rgba(250,243,232,0.3); margin-top: 0.5rem; }
+.suspect-table tr:hover td { background: rgba(192,57,43,0.05); }
+.attempt-counter { font-family: 'Special Elite', monospace; font-size: 0.75rem; color: rgba(26,26,26,0.4); margin-top: 0.5rem; }
 
 .blood-drip {
   position: absolute; width: 3px;
@@ -276,7 +276,7 @@ body {
     radial-gradient(ellipse at 30% 40%, rgba(255,185,175,0.15) 0%, transparent 50%),
     radial-gradient(ellipse at 70% 60%, rgba(255,215,160,0.1) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 80%, rgba(252,163,173,0.12) 0%, transparent 40%),
-    var(--noir);
+    #ffffff;
 }
 .confetti-container { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .confetti { position: absolute; width: 10px; height: 10px; top: -10px; animation: confetti-fall linear infinite; }
@@ -285,10 +285,10 @@ body {
 .finale-badge {
   display: inline-block; font-family: 'Special Elite', monospace; font-size: 0.75rem;
   color: var(--teal); letter-spacing: 0.4em; text-transform: uppercase;
-  border: 1px solid rgba(78,205,196,0.4); padding: 0.4em 1.5em; margin-bottom: 2rem;
+  border: 1px solid rgba(42,138,132,0.6); padding: 0.4em 1.5em; margin-bottom: 2rem;
   animation: pulse-border 2s ease infinite;
 }
-@keyframes pulse-border { 0%,100% { border-color: rgba(78,205,196,0.4); } 50% { border-color: rgba(78,205,196,0.8); } }
+@keyframes pulse-border { 0%,100% { border-color: rgba(42,138,132,0.6); } 50% { border-color: rgba(42,138,132,0.9); } }
 .finale-title {
   font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 700; line-height: 1.1; margin-bottom: 1rem;
@@ -300,24 +300,24 @@ body {
 @keyframes gradient-shift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 .finale-subtitle { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.8rem); font-style: italic; color: var(--rose); margin-bottom: 2.5rem; font-weight: 400; }
 .cadeau-reveal {
-  background: linear-gradient(145deg, rgba(44,24,16,0.95), rgba(26,26,26,0.9));
+  background: linear-gradient(145deg, rgba(240,240,240,0.95), rgba(255,255,255,0.9));
   border: 2px solid var(--or); padding: 2.5rem; margin: 1.5rem auto;
   position: relative; max-width: 550px;
 }
-.cadeau-reveal::before { content: '🎭'; position: absolute; top: -1.2rem; left: 50%; transform: translateX(-50%); font-size: 2rem; background: var(--noir); padding: 0 0.5em; }
+.cadeau-reveal::before { content: '🎭'; position: absolute; top: -1.2rem; left: 50%; transform: translateX(-50%); font-size: 2rem; background: #ffffff; padding: 0 0.5em; }
 .cadeau-label { font-family: 'Special Elite', monospace; font-size: 0.7rem; color: var(--or); letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 1.5rem; }
 .cadeau-titre { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--abricot); margin-bottom: 0.5rem; line-height: 1.2; }
 .cadeau-details { font-family: 'Crimson Pro', serif; font-size: 1.2rem; color: var(--rose); margin-bottom: 0.3rem; font-weight: 300; }
 .cadeau-date { font-family: 'Special Elite', monospace; font-size: 1.3rem; color: var(--or-pale); margin-top: 1rem; letter-spacing: 0.1em; }
 .finale-message {
   font-family: 'Crimson Pro', serif; font-size: clamp(1.05rem, 2.5vw, 1.25rem);
-  color: rgba(250,243,232,0.85); line-height: 1.8; margin-top: 2.5rem;
+  color: rgba(26,26,26,0.9); line-height: 1.8; margin-top: 2.5rem;
   font-weight: 300; max-width: 550px; margin-left: auto; margin-right: auto;
 }
 .finale-message em { color: var(--corail); font-weight: 400; }
 .signature { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; color: var(--abricot); margin-top: 2rem; }
 .heart-float { position: absolute; font-size: 1.5rem; animation: float-heart 6s ease-in-out infinite; opacity: 0.3; }
-@keyframes float-heart { 0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.1; } 50% { transform: translateY(-30px) rotate(15deg); opacity: 0.4; } }
+@keyframes float-heart { 0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.2; } 50% { transform: translateY(-30px) rotate(15deg); opacity: 0.5; } }
 
 @media (max-width: 600px) {
   .evidence-card { padding: 1.2rem; }
